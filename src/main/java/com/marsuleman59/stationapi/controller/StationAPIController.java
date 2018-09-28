@@ -4,9 +4,11 @@ import com.marsuleman59.stationapi.dto.StationDto;
 import com.marsuleman59.stationapi.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -18,10 +20,10 @@ public class StationAPIController {
     @Autowired
     private StationService stationService;
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<StationDto> addStation(@RequestBody final StationDto stationDto) {
 
-        return new ResponseEntity<StationDto>(stationService.addStation(stationDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<StationDto>(stationService.addStation(stationDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{stationId}")
@@ -46,7 +48,7 @@ public class StationAPIController {
     }
 
     @GetMapping("/searchByHdEnabledStation")
-    public ResponseEntity<List<StationDto>> getStationByNameOrID(@RequestParam("hdEnabled") final Boolean isHdEnabled) {
+    public ResponseEntity<List<StationDto>> getStationByHdEnabledStation(@RequestParam("hdEnabled") final Boolean isHdEnabled) {
         return new ResponseEntity<List<StationDto>>(stationService.getHDEnabledStations(isHdEnabled), HttpStatus.OK);
     }
 }
