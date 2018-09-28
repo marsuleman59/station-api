@@ -40,8 +40,13 @@ public class StationAPIController {
         return new ResponseEntity<StationDto>(stationService.updateStation(id, stationDto), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<StationDto>> getStationByNameOrID(@RequestParam(value= "stationId", required = false) final String stationId, @RequestParam(value= "stationId", required = false) final String stationName) {
+    @GetMapping("/searchByIdOrName")
+    public ResponseEntity<List<StationDto>> getStationByNameOrID(@RequestParam(value= "stationId", required = false) final String stationId, @RequestParam(value= "stationName", required = false) final String stationName) {
         return new ResponseEntity<List<StationDto>>(stationService.getStationByNameOrID(stationId, stationName), HttpStatus.OK);
+    }
+
+    @GetMapping("/searchByHdEnabledStation")
+    public ResponseEntity<List<StationDto>> getStationByNameOrID(@RequestParam("hdEnabled") final Boolean isHdEnabled) {
+        return new ResponseEntity<List<StationDto>>(stationService.getHDEnabledStations(isHdEnabled), HttpStatus.OK);
     }
 }

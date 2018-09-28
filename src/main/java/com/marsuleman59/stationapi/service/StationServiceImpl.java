@@ -45,7 +45,17 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public List<StationDto> getStationByNameOrID(final String stationId, final String stationName) {
-        List<Station> stations = stationRepository.findByStationIdOrName(stationId, stationName);
+        List<Station> stations = stationRepository.findByStationIdOrNameIgnoreCase(stationId, stationName);
+        return getStationDtos(stations);
+    }
+
+    @Override
+    public List<StationDto> getHDEnabledStations(boolean isHdEnabled) {
+        List<Station> stations = stationRepository.findByHdEnabled(isHdEnabled);
+        return getStationDtos(stations);
+    }
+
+    private List<StationDto> getStationDtos(List<Station> stations) {
         final List<StationDto> stationDtoList = new ArrayList<>();
         stations.forEach(station -> stationDtoList.add(convertToDto(station)));
         return stationDtoList;

@@ -15,4 +15,6 @@ public interface StationService {
     StationDto updateStation(String id, StationDto stationDto);
 
     List<StationDto> getStationByNameOrID(final String stationId, final String stationName);
+
+    List<StationDto> getHDEnabledStations(boolean isHdEnabled);
 }
