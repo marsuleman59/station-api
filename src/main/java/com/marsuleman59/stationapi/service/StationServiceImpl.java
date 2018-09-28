@@ -2,6 +2,7 @@ package com.marsuleman59.stationapi.service;
 
 import com.marsuleman59.stationapi.dto.StationDto;
 import com.marsuleman59.stationapi.entity.Station;
+import com.marsuleman59.stationapi.exceptions.StationNotFoundException;
 import com.marsuleman59.stationapi.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public void removeStation(final String stationId) {
+        Station station = stationRepository.findById(stationId).orElseThrow(() -> new StationNotFoundException("No Station Found for id: " + stationId));
         stationRepository.deleteById(stationId);
     }
 
@@ -36,7 +38,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public StationDto updateStation(String id, StationDto stationDto) {
-        Station station = stationRepository.findById(id).get();
+        Station station = stationRepository.findById(id).orElseThrow(() -> new StationNotFoundException("No Station Found for id: " + id));
         station.setName(stationDto.getName());
         station.setHdEnabled(stationDto.getHdEnabled());
         station.setCallSign(stationDto.getCallSign());

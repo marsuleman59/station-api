@@ -1,14 +1,16 @@
 package com.marsuleman59.stationapi;
 
-import com.marsuleman59.stationapi.dto.StationDto;
-import com.marsuleman59.stationapi.entity.Station;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@EnableSwagger2
 public class StationApiApplication {
 
 	public static void main(String[] args) {
@@ -16,17 +18,11 @@ public class StationApiApplication {
 	}
 
 	@Bean
-	public ModelMapper modelMapper() {
-		final ModelMapper modelMapper = new ModelMapper();
-		final PropertyMap<Station, StationDto> personMap = new PropertyMap<Station, StationDto>() {
-			protected void configure() {
-				map().setStationId(source.getStationId());
-				map().setName(source.getName());
-				map().setHdEnabled(source.getHdEnabled());
-				map().setCallSign(source.getCallSign());
-			}
-		};
-		modelMapper.addMappings(personMap);
-		return modelMapper;
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any())
+				.build();
 	}
 }
